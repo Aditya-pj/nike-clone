@@ -8,6 +8,7 @@ import Favourites from './features/favourites/favourites';
 import SignIn from './features/auth/signIn';
 import Account from './features/auth/account';
 import SearchResults from './searchResults';
+import Navbar from './components/navbar';
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -32,13 +33,15 @@ function App() {
         <Route exact path="/account">
         { isLoggedIn ? <Account/> : <Redirect to="/login"/>}
         </Route>
-        <Route path="/search">
-        { isLoggedIn ? <SearchResults/> : <Redirect to="/login"/>}
+        <Route path="/search/:searchValue">
+        {({match}) => 
+          (
+          isLoggedIn ? (<SearchResults searchValue={match.params.searchValue}/>) : (<Redirect to="/login"/>))}
         </Route>
       </Switch>
     </div>
   );
-}
+  }
 
 export default App;
 

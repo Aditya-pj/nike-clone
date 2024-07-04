@@ -1,7 +1,8 @@
 import { logout } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import SearchResults from "../searchResults";
 
 const Navbar = () => {
     const [searchValue, setSearchValue] = useState("");
@@ -12,13 +13,14 @@ const Navbar = () => {
         if (searchValue.trim() != "")
         {
             setIsToBeRedirected(true);
+           
         }
     };
     if (isToBeRedirected)
     {
-        return <Redirect to={`/search/?value=${encodeURIComponent(searchValue)}`}/>
+        return <Redirect to={`/search/${encodeURIComponent(searchValue)}`}/>
     }
-    
+        
     return ( 
         <nav>
             <div className="top-nav">
@@ -55,7 +57,7 @@ const Navbar = () => {
                     </form>  
                     <a href="/favourites"><button id="heart-btn" className="nav-btn"><i className="far fa-heart icon" aria-hidden="true"></i></button></a>
                     <a href="/cart"><button id="bag-btn" className="nav-btn"><i className="fa fa-shopping-bag" aria-hidden="true"></i></button></a>
-                    <a href="/account"><button id="user-btn" className="nav-btn"><i class="fa-solid fa-user"></i></button></a>
+                    <a href="/account"><button id="user-btn" className="nav-btn"><i className="fa-solid fa-user"></i></button></a>
                     
                 </div>
             </div>

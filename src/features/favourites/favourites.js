@@ -15,13 +15,13 @@ const Favourites = () => {
             <div className="cards-list">
             { itemList.filter(item => item.userEmail == userEmail).map((prod) => (
                     <div className="card" key={prod.id}>
-                        <img src={prod.imageUrl} alt="product" class="prod-img"/>
+                        <img src={prod.imageUrl} alt="product" className="prod-img"/>
                         <div className="card-content">
                             <div className="brand-name">{prod.productName}</div>
                             <div className="product-name">{prod.category}</div>
                             <div className="price">${prod.listPrice}</div>
                         </div>
-                        <button class="catchy-btn" onClick={() => dispatch(removeFromFavourites({id: prod.id, productName: prod.productName, category: prod.category, listPrice: prod.listPrice, imageUrl: prod.imageUrl, userEmail }))}>Remove from Favourites</button>
+                        <button className="catchy-btn" onClick={() => dispatch(removeFromFavourites({id: prod.id, productName: prod.productName, category: prod.category, listPrice: prod.listPrice, imageUrl: prod.imageUrl, userEmail }))}>Remove from Favourites</button>
                     </div>
             ))}
             </div>

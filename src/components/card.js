@@ -30,7 +30,7 @@ const Card = () => {
                     </div> */}
                 {/* </div> */}
             {/* </div>  */}
-            { prodList.map((prod) => (
+            { prodList.slice(0,100).map((prod) => (
             <div className="card" key={prod.id}>
                 <img src={prod.imageUrl} alt="product" className="prod-img"/>
                 <div className="card-content">
