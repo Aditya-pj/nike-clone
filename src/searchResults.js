@@ -53,7 +53,7 @@ const SearchResults = () => {
                     <button className="catchy-btn" onClick={() => dispatch(addToCart({id: prod.id, productName: prod.productName, category: prod.category, listPrice: prod.listPrice, imageUrl: prod.imageUrl, userEmail }))}>Add to Cart</button>
                     <button className="catchy-btn" onClick={() => dispatch(addToFavourites({id: prod.id, productName: prod.productName, category: prod.category, listPrice: prod.listPrice, imageUrl: prod.imageUrl, userEmail }))}>Add to Favourites</button>
                     </div>))) : <div></div>}
-                    {searchproducts.length == 0 ? <div>No serach results found.</div> : <div></div>}
+                    {searchproducts.length == 0 && isLoading == false ? <div>No serach results found.</div> : <div></div>}
                     {isLoading && <div>Loading...</div>}
                     {error && <div>{error}</div>}
                 
