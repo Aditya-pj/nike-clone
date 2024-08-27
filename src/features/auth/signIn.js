@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signInUser, login } from './authSlice';
 import { useState } from 'react';
 import MainPage from '../../mainPage';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { nanoid } from '@reduxjs/toolkit';
 
 const SignIn = () => {

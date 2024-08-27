@@ -1,8 +1,7 @@
 import { logout } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
-import SearchResults from "../searchResults";
+import { useState } from "react";
+import { Navigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [searchValue, setSearchValue] = useState("");
@@ -10,7 +9,7 @@ const Navbar = () => {
     const [isToBeRedirected, setIsToBeRedirected] = useState(false);
     const handleRedirect = (event) => {
         event.preventDefault();
-        if (searchValue.trim() != "")
+        if (searchValue.trim() !== "")
         {
             setIsToBeRedirected(true);
            
@@ -18,22 +17,22 @@ const Navbar = () => {
     };
     if (isToBeRedirected)
     {
-        return <Redirect to={`/search/${encodeURIComponent(searchValue)}`}/>
+        return <Navigate to={`/search/${encodeURIComponent(searchValue)}`}/>
     }
         
     return ( 
         <nav>
             <div className="top-nav">
-                <a href=""><img src="/Jumpman_logo_nike.png" alt="home" height="20"/></a>
+                <a href="/"><img src="/Jumpman_logo_nike.png" alt="home" height="20"/></a>
                 <div className="link-list">
                     <ul>
-                        <li><a href="">Find a Store</a></li>
+                        <li><a href="/">Find a Store</a></li>
                         <li>|</li>
-                        <li><a href="">Help</a></li>
+                        <li><a href="/">Help</a></li>
                         <li>|</li>
-                        <li><a href="">Join Us</a></li>
+                        <li><a href="/">Join Us</a></li>
                         <li>|</li>
-                        <li><a href="" onClick={() => {dispatch(logout())}}>Logout</a></li>
+                        <li><a href="/" onClick={() => {dispatch(logout())}}>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -41,13 +40,13 @@ const Navbar = () => {
                 <img className="logo" src="/nike_logo.jpg" height="60" alt="Nike logo"/>
                 <div className="link-list-big">
                     <ul>
-                        <li><a href="">New & Featured</a></li>
-                        <li><a href="">Men</a></li>
-                        <li><a href="">Women</a></li>
-                        <li><a href="">Kids</a></li>
-                        <li><a href="">Sale</a></li>
-                        <li><a href="">Customise</a></li>
-                        <li><a href="">SNKRS</a></li>
+                        <li><a href="/">New & Featured</a></li>
+                        <li><a href="/">Men</a></li>
+                        <li><a href="/">Women</a></li>
+                        <li><a href="/">Kids</a></li>
+                        <li><a href="/">Sale</a></li>
+                        <li><a href="/">Customise</a></li>
+                        <li><a href="/">SNKRS</a></li>
                     </ul>
                 </div>
                 <div className="right-nav">

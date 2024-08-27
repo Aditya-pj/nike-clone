@@ -4,7 +4,7 @@ import Card from "./components/card";
 const MainPage = () => {
     return ( 
         <div className="app-class">
-        <Navbar/>
+        <Navbar/>  
         <Card/>
         </div>
      );

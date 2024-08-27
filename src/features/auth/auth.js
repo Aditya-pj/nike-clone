@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { login } from "./authSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { Navigate } from 'react-router-dom';
 import { nanoid } from "@reduxjs/toolkit";
 
 const AuthPage = () => {
