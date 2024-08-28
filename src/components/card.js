@@ -22,6 +22,7 @@ const Card = () => {
     const [isSortOn, setSortOn] = useState(false);
     const [IsColorOn, setColorOn] = useState(false);
     const dispatch = useDispatch();
+    const [noFilter, setNoFilter] = useState("none");
     const falseList = [false, false, false, false, false, false, false];
     const [IsFilterOn, setFilterOn] = useState(falseList);
     const [prodList, setProdList] = useState([]);
@@ -29,8 +30,13 @@ const Card = () => {
     const toggleSidebar = () => {
         setSidebarOn(!isSidebarOn);
     };
+    // change filter 
     const toggleCriteria = (index) => {
-        IsFilterOn[index] = !IsFilterOn[index];
+        setFilterOn((prev) => {
+            const newFilterOn = [...prev];
+            newFilterOn[index] = !newFilterOn[index];
+            return newFilterOn;
+        });
     };
     const toggleColor = () => {
         setColorOn(!IsColorOn);
@@ -38,13 +44,37 @@ const Card = () => {
     const toggleSort = () => {
         setSortOn(!isSortOn);
     };
+    const changeNoFilter = (filterVal) => {
+        setNoFilter(filterVal);
+    } ;
+    const listFilter = ['shoes','hoodies and pullovers','jackets and vests','pants and tights','tops and t-shirts','jerseys','shorts','tights and leggings','sports bras','compression and baselayer','tracksuits','swimwear','socks','accessories and equipments'];
+    const filteredLists = [];
+    filteredLists[0] = prodList.filter(product => product.imageUrl.toLowerCase().includes('shoes'.toLowerCase()));
+    filteredLists[1] = prodList.filter(product => product.imageUrl.toLowerCase().includes('hoodie'.toLowerCase()) || prodList.filter(product => product.imageUrl.toLowerCase().includes('pullover'.toLowerCase())) );
+    filteredLists[2] = prodList.filter(product => product.imageUrl.toLowerCase().includes('jacket'.toLowerCase()) || prodList.filter(product => product.imageUrl.toLowerCase().includes('vest'.toLowerCase())) );
+    filteredLists[3] = prodList.filter(product => product.imageUrl.toLowerCase().includes('pant'.toLowerCase()) || prodList.filter(product => product.imageUrl.toLowerCase().includes('tights'.toLowerCase())) );
+    filteredLists[4] = prodList.filter(product => product.imageUrl.toLowerCase().includes('top'.toLowerCase()) || prodList.filter(product => product.imageUrl.toLowerCase().includes('t-shirt'.toLowerCase())) );
+    filteredLists[5] = prodList.filter(product => product.imageUrl.toLowerCase().includes('jersey'.toLowerCase()));
+    filteredLists[6] = prodList.filter(product => product.imageUrl.toLowerCase().includes('shorts'.toLowerCase()));
+    filteredLists[7] = prodList.filter(product => product.imageUrl.toLowerCase().includes('tights'.toLowerCase()) || prodList.filter(product => product.imageUrl.toLowerCase().includes('leggings'.toLowerCase())) );
+    filteredLists[8] = prodList.filter(product => product.imageUrl.toLowerCase().includes('sports-bra'.toLowerCase()));
+    filteredLists[9] = prodList.filter(product => product.description.toLowerCase().includes('compression'.toLowerCase()) || prodList.filter(product => product.description.toLowerCase().includes('baselayer'.toLowerCase())));
+    filteredLists[10] = prodList.filter(product => product.imageUrl.toLowerCase().includes('tracksuit'.toLowerCase()));
+    filteredLists[11] = prodList.filter(product => product.imageUrl.toLowerCase().includes('swim'.toLowerCase()));
+    filteredLists[12] = prodList.filter(product => product.imageUrl.toLowerCase().includes('socks'.toLowerCase()));
+    filteredLists[13] = prodList.filter(product => product.category.toLowerCase().includes('accessories'.toLowerCase()));
+    const [filterIndex, setFilterIndex] = useState(null);
+    for (let i=0;i<14;i++)
+    {
+        if (listFilter[i] === noFilter) setFilterIndex(i);
+    }
     useEffect(() => {
         fetch('http://localhost:8000/products')
         .then(res => res.json())
         .then(data => {
             setProdList(data);
             console.log(prodList);
-        })},[prodList])
+        })},[])
     return ( 
         <div className="wrapper">
             <div className="headings">
@@ -72,20 +102,9 @@ const Card = () => {
                 {isSidebarOn && (
                     <div className="sidebar">
                     <hr/>
-                    <a href="/" className="filter-criteria">Shoes</a>
-                    <a href="/" className="filter-criteria">Hoodies & Pullovers</a>
-                    <a href="/" className="filter-criteria">Jackets & Vests</a>
-                    <a href="/" className="filter-criteria">Pants & Tights</a>
-                    <a href="/" className="filter-criteria">Tops & T-Shirts</a>
-                    <a href="/" className="filter-criteria">Jerseys</a>
-                    <a href="/" className="filter-criteria">Shorts</a>
-                    <a href="/" className="filter-criteria">Tights & Leggings</a>
-                    <a href="/" className="filter-criteria">Sports Bras</a>
-                    <a href="/" className="filter-criteria">Compression & Baselayer</a>
-                    <a href="/" className="filter-criteria">Tracksuits</a>
-                    <a href="/" className="filter-criteria">Swimwear</a>
-                    <a href="/" className="filter-criteria">Socks</a>
-                    <a href="/" className="filter-criteria">Accessories & Equipments</a>
+                    {listFilter.map((item,index) => (
+                        <div className="filter-criteria" key={index} onClick={() => {changeNoFilter(item)}}>{item}</div>
+                    ))}
                     {/* Adding filters */}
                     <div className="filter-section">
                         <hr/>
@@ -174,7 +193,7 @@ const Card = () => {
                 )}
                 {/* Adding cards */}
                 <div className="cards-list">
-                { prodList.slice(0,100).map((prod) => (
+                {noFilter == "none" && prodList.slice(0,100).map((prod) => (
                 <div className="card" key={prod.id}>
                     <img src={prod.imageUrl} alt="product" className="prod-img"/>
                     <div className="card-content">
@@ -186,6 +205,22 @@ const Card = () => {
                     <button className="catchy-btn" onClick={() => dispatch(addToFavourites({id: prod.id, productName: prod.productName, category: prod.category, listPrice: prod.listPrice, imageUrl: prod.imageUrl, userEmail }))}>Add to Favourites</button>
                 </div>
                     ))}
+                {noFilter != "none" && filterIndex != null && (
+                    <div className="mid-class">
+                        {filteredLists[filterIndex].map((prod) => (
+                            <div className="card" key={prod.id}>
+                            <img src={prod.imageUrl} alt="product" className="prod-img"/>
+                            <div className="card-content">
+                                <div className="brand-name">{prod.productName}</div>
+                                <div className="product-name">{prod.category}</div>
+                                <div className="price">${prod.listPrice}</div>
+                            </div>
+                            <button className="catchy-btn" onClick={() => dispatch(addToCart({id: prod.id, productName: prod.productName, category: prod.category, listPrice: prod.listPrice, imageUrl: prod.imageUrl, userEmail }))}>Add to Cart</button>
+                            <button className="catchy-btn" onClick={() => dispatch(addToFavourites({id: prod.id, productName: prod.productName, category: prod.category, listPrice: prod.listPrice, imageUrl: prod.imageUrl, userEmail }))}>Add to Favourites</button>
+                        </div>
+                        ))}
+                    </div>
+                )}
                 </div>
             </div>
         </div>
